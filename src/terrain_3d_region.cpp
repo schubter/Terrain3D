@@ -559,7 +559,9 @@ void Terrain3DRegion::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("set_data", "data"), &Terrain3DRegion::set_data);
 	ClassDB::bind_method(D_METHOD("get_data"), &Terrain3DRegion::get_data);
-	ClassDB::bind_method(D_METHOD("duplicate", "deep"), &Terrain3DRegion::duplicate, DEFVAL(false));
+	// Not bound: Resource already has this name, 4.8 rejects the bind, and 4.8-dev6 frees it
+	// before printing the error, which crashes at load (fixed upstream in Godot 75333f599).
+	// ClassDB::bind_method(D_METHOD("duplicate", "deep"), &Terrain3DRegion::duplicate, DEFVAL(false));
 	ClassDB::bind_method(D_METHOD("dump", "verbose"), &Terrain3DRegion::dump, DEFVAL(false));
 
 	int ro_flags = PROPERTY_USAGE_STORAGE | PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_READ_ONLY;

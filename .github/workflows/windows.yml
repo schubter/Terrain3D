@@ -13,10 +13,7 @@ jobs:
         config:
           - arch: x86_64
             platform: windows
-            flags: ""
-          - arch: arm64
-            platform: windows
-            flags: use_mingw=yes use_llvm=yes
+            flags: "custom_api_file=api/extension_api.json"
 
     steps:
       - name: Checkout

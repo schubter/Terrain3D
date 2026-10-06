@@ -223,8 +223,10 @@ void Terrain3DTextureAsset::_bind_methods() {
 	ADD_SIGNAL(MethodInfo("setting_changed"));
 
 	ClassDB::bind_method(D_METHOD("clear"), &Terrain3DTextureAsset::clear);
-	ClassDB::bind_method(D_METHOD("set_name", "name"), &Terrain3DTextureAsset::set_name);
-	ClassDB::bind_method(D_METHOD("get_name"), &Terrain3DTextureAsset::get_name);
+	// Not bound: Resource already has this name, 4.8 rejects the bind, and 4.8-dev6 frees it
+	// before printing the error, which crashes at load (fixed upstream in Godot 75333f599).
+	// ClassDB::bind_method(D_METHOD("set_name", "name"), &Terrain3DTextureAsset::set_name);
+	// ClassDB::bind_method(D_METHOD("get_name"), &Terrain3DTextureAsset::get_name);
 	ClassDB::bind_method(D_METHOD("set_id", "id"), &Terrain3DTextureAsset::set_id);
 	ClassDB::bind_method(D_METHOD("get_id"), &Terrain3DTextureAsset::get_id);
 	ClassDB::bind_method(D_METHOD("set_highlighted", "enabled"), &Terrain3DTextureAsset::set_highlighted);
