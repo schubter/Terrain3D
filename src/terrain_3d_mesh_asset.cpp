@@ -184,6 +184,11 @@ void Terrain3DMeshAsset::set_name(const String &p_name) {
 	emit_signal("setting_changed", _id);
 }
 
+void Terrain3DMeshAsset::_set_name_property(const String &p_name) {
+	set_name(p_name);
+	Resource::set_name(_name);
+}
+
 void Terrain3DMeshAsset::set_id(const int p_new_id) {
 	int old_id = _id;
 	SET_IF_DIFF(_id, CLAMP(p_new_id, 0, Terrain3DAssets::MAX_MESHES - 1));
@@ -597,6 +602,8 @@ void Terrain3DMeshAsset::_bind_methods() {
 	// before printing the error, which crashes at load (fixed upstream in Godot 75333f599).
 	// ClassDB::bind_method(D_METHOD("set_name", "name"), &Terrain3DMeshAsset::set_name);
 	// ClassDB::bind_method(D_METHOD("get_name"), &Terrain3DMeshAsset::get_name);
+	ClassDB::bind_method(D_METHOD("_set_name_property", "name"), &Terrain3DMeshAsset::_set_name_property);
+	ClassDB::bind_method(D_METHOD("_get_name_property"), &Terrain3DMeshAsset::_get_name_property);
 	ClassDB::bind_method(D_METHOD("set_id", "id"), &Terrain3DMeshAsset::set_id);
 	ClassDB::bind_method(D_METHOD("get_id"), &Terrain3DMeshAsset::get_id);
 	ClassDB::bind_method(D_METHOD("set_highlighted", "enabled"), &Terrain3DMeshAsset::set_highlighted);
@@ -665,7 +672,7 @@ void Terrain3DMeshAsset::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_instance_count"), &Terrain3DMeshAsset::get_instance_count);
 
-	ADD_PROPERTY(PropertyInfo(Variant::STRING, "name", PROPERTY_HINT_NONE), "set_name", "get_name");
+	ADD_PROPERTY(PropertyInfo(Variant::STRING, "name", PROPERTY_HINT_NONE), "_set_name_property", "_get_name_property");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "id", PROPERTY_HINT_NONE), "set_id", "get_id");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "enabled", PROPERTY_HINT_NONE), "set_enabled", "is_enabled");
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "scene_file", PROPERTY_HINT_RESOURCE_TYPE, "PackedScene"), "set_scene_file", "get_scene_file");

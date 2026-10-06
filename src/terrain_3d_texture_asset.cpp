@@ -69,6 +69,11 @@ void Terrain3DTextureAsset::set_name(const String &p_name) {
 	emit_signal("setting_changed");
 }
 
+void Terrain3DTextureAsset::_set_name_property(const String &p_name) {
+	set_name(p_name);
+	Resource::set_name(_name);
+}
+
 void Terrain3DTextureAsset::set_id(const int p_new_id) {
 	int old_id = _id;
 	SET_IF_DIFF(_id, CLAMP(p_new_id, 0, Terrain3DAssets::MAX_TEXTURES - 1));
@@ -227,6 +232,8 @@ void Terrain3DTextureAsset::_bind_methods() {
 	// before printing the error, which crashes at load (fixed upstream in Godot 75333f599).
 	// ClassDB::bind_method(D_METHOD("set_name", "name"), &Terrain3DTextureAsset::set_name);
 	// ClassDB::bind_method(D_METHOD("get_name"), &Terrain3DTextureAsset::get_name);
+	ClassDB::bind_method(D_METHOD("_set_name_property", "name"), &Terrain3DTextureAsset::_set_name_property);
+	ClassDB::bind_method(D_METHOD("_get_name_property"), &Terrain3DTextureAsset::_get_name_property);
 	ClassDB::bind_method(D_METHOD("set_id", "id"), &Terrain3DTextureAsset::set_id);
 	ClassDB::bind_method(D_METHOD("get_id"), &Terrain3DTextureAsset::get_id);
 	ClassDB::bind_method(D_METHOD("set_highlighted", "enabled"), &Terrain3DTextureAsset::set_highlighted);
@@ -258,7 +265,7 @@ void Terrain3DTextureAsset::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_detiling_shift", "detiling_shift"), &Terrain3DTextureAsset::set_detiling_shift);
 	ClassDB::bind_method(D_METHOD("get_detiling_shift"), &Terrain3DTextureAsset::get_detiling_shift);
 
-	ADD_PROPERTY(PropertyInfo(Variant::STRING, "name", PROPERTY_HINT_NONE), "set_name", "get_name");
+	ADD_PROPERTY(PropertyInfo(Variant::STRING, "name", PROPERTY_HINT_NONE), "_set_name_property", "_get_name_property");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "id", PROPERTY_HINT_NONE), "set_id", "get_id");
 	ADD_PROPERTY(PropertyInfo(Variant::COLOR, "albedo_color", PROPERTY_HINT_COLOR_NO_ALPHA), "set_albedo_color", "get_albedo_color");
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "albedo_texture", PROPERTY_HINT_RESOURCE_TYPE, "ImageTexture,CompressedTexture2D"), "set_albedo_texture", "get_albedo_texture");

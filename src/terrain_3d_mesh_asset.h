@@ -90,6 +90,9 @@ public:
 
 	void set_name(const String &p_name) override;
 	String get_name() const override { return _name; }
+	// Backs the `name` property: Resource's resource_name plus our own copy.
+	void _set_name_property(const String &p_name);
+	String _get_name_property() const { return Resource::get_name(); }
 	void set_id(const int p_new_id) override;
 	int get_id() const override { return _id; }
 	void set_highlighted(const bool p_highlighted) override;
